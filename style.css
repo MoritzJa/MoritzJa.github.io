@@ -235,3 +235,11 @@ h3 {
     opacity: 0;
   }
 }
+
+.Ttextback {
+	transform: rotate3d(0, 0, 1, -90deg);
+}
+
+.Ctextback {
+	transform: rotate3d(0, 0, 1, 90deg);
+}

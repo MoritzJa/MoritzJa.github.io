@@ -13,11 +13,11 @@ function flipME(event){
 function flipT(event){
 	var element = event.currentTarget;
 	if (element.className === "T-inner") {
-		if(element.style["-webkit-transform"] == "rotate3d(1, -1, 0, 180deg)") {
-		element.style["-webkit-transform"] = "rotate3d(1,-1, 0,0deg)";
+		if(element.style["transform"] == "rotate3d(1, -1, 0, 180deg)") {
+		element.style["transform"] = "rotate3d(1,-1, 0,0deg)";
     }
     else {
-      element.style["-webkit-transform"] = "rotate3d(1,-1, 0,180deg)";
+      element.style["transform"] = "rotate3d(1,-1, 0,180deg)";
     }
   }
 };
@@ -25,11 +25,11 @@ function flipT(event){
 function flipC(event){
 	var element = event.currentTarget;
 	if (element.className === "C-inner") {
-		if(element.style["-webkit-transform"] == "rotate3d(1, 1, 0, 180deg)") {
-		element.style["-webkit-transform"] = "rotate3d(1,1, 0,0deg)";
+		if(element.style["transform"] == "rotate3d(1, 1, 0, 180deg)") {
+		element.style["transform"] = "rotate3d(1,1, 0,0deg)";
     }
     else {
-      element.style["-webkit-transform"] = "rotate3d(1,1, 0,180deg)";
+      element.style["transform"] = "rotate3d(1,1, 0,180deg)";
     }
   }
 };
