@@ -36,10 +36,8 @@ function flipC(event){
 
 document.getElementById("linkde").addEventListener("click", function(e) {
   e.stopPropagation(); 
-  console.log('child clicked');
 });
 
 document.getElementById("linken").addEventListener("click", function(e) {
   e.stopPropagation();
-  console.log('child clicked');
 });

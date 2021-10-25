@@ -344,3 +344,17 @@ h3 {
 	justify-content: center; 
 	align-items: center;
 }
+
+.link:hover {
+	color: #323232;
+	font-size: min(3.2vh, 3.2vw);
+}
+
+.link:active {
+	color: #323232;
+	font-size: min(5.2vh, 5.2vw);
+}
+
+.link {
+	transition: 200ms;
+}
