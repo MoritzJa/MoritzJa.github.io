@@ -37,15 +37,24 @@ h3 {
 	display: inline;
 }
 
-.p1, .p2{
+.p1, .p2, .p3, .p4{
 	font-family: 'Noto Sans Mono', monospace;
 	font-size: min(4vh, 4vw);
 	color: #3e3e3e;
 	margin: 0em;
 	-webkit-backface-visibility: hidden; /* Safari */
 	backface-visibility: hidden;
+	padding-top: 0;
+	padding-left: 0;
+}
+
+.pad {
 	padding-top: min(2vh, 2vw);
 	padding-left: min(2vh, 2vw);
+}
+
+.allpad {
+	padding: min(2vh, 2vw);
 }
 
 .p2 {
@@ -54,6 +63,14 @@ h3 {
 	padding-top: min(1vh, 1vw);
 	padding-left: min(2vh, 2vw);
 	padding-right: min(2vh, 2vw);
+}
+
+.p3 {
+	font-size: min(2vh, 2vw);
+}
+
+.p4 {
+	font-size: min(3vh, 3vw);
 }
 
 .M {
@@ -248,4 +265,82 @@ h3 {
 
 .Ctextback {
 	transform: rotate3d(0, 0, 1, 90deg);
+}
+
+.TContent {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+	gap: min(1vw, 1vh);
+	align-items: center;
+}
+
+.python {
+	grid-column:1;
+	grid-row:1;
+}
+
+.keras {
+	grid-column:1;
+	grid-row:2;
+}
+
+.pytorch {
+	grid-column:1;
+	grid-row:3;
+}
+
+.numpy {
+	grid-column:1;
+	grid-row:4;
+}
+
+.pandas {
+	grid-column:1;
+	grid-row:5;
+}
+
+.scikit {
+	grid-column:1;
+	grid-row:6;
+}
+
+.cpp {
+	grid-column:2;
+	grid-row:1;
+}
+
+.opencv {
+	grid-column:2;
+	grid-row:2;
+}
+
+.java {
+	grid-column:3;
+	grid-row:1;
+}
+
+.knime {
+	grid-column:3;
+	grid-row:2;
+}
+
+.sql {
+	grid-column:3;
+	grid-row:3;
+}
+
+.latex {
+	grid-column:3;
+	grid-row:4;
+}
+
+.html {
+	grid-column:3;
+	grid-row:5;
+}
+
+.grid-item  {
+	display: flex; 
+	justify-content: center; 
+	align-items: center;
 }
