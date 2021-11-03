@@ -358,3 +358,14 @@ h3 {
 .link {
 	transition: 200ms;
 }
+
+.cont:hover {
+	padding: 0;
+	border: 2px solid;
+	border-color: #3e3e3e;
+	cursor: text;
+}
+
+.cont {
+	padding: 0;
+}

@@ -38,6 +38,10 @@ document.getElementById("linkde").addEventListener("click", function(e) {
   e.stopPropagation(); 
 });
 
-document.getElementById("linken").addEventListener("click", function(e) {
+/*document.getElementById("linken").addEventListener("click", function(e) {
+  e.stopPropagation();
+});*/
+
+document.getElementById("contact").addEventListener("click", function(e) {
   e.stopPropagation();
 });
