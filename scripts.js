@@ -131,9 +131,52 @@ function analyze_template() {
 
     cv.inRange(src, low, high, dst);
 
-    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 100, 10, 10, 0, 200);
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 50, 10, 10, 0, 200);
 
     document.getElementById("Step2_h").innerHTML = circles.cols;
+
+    const centres = [];
+
+    for (let i = 0; i < circles.cols; ++i) {
+        let x = circles.data32F[i * 3];
+        let y = circles.data32F[i * 3 + 1];
+        let radius = circles.data32F[i * 3 + 2];
+        let center = new cv.Point(x, y);
+        let color = new cv.Scalar(100, 100, 100);
+        cv.circle(dst, center, radius, color);
+        centres.push(center);
+    }
+
+    if (centres.length == 4) {
+        var distances = [];
+
+        for (let i = 0; i < centres.length; i++) {
+            for (let j = i+1; j < centres.length; j++) {
+                distances.push(Math.sqrt(((centres[j].x - centres[i].x)*(centres[j].x - centres[i].x)) + ((centres[j].y - centres[i].y)*(centres[j].y - centres[i].y))));
+            }
+        }
+
+        distances = distances.sort(function(a, b) {
+        return a - b;
+        });
+
+        distances = distances.splice(0, 4);
+
+        var avg_dist = 0;
+
+        for (const item of distances) {
+            avg_dist = avg_dist + item;
+        }
+
+        avg_dist = avg_dist / distances.length;
+
+        var deviations = [];
+        for (let i = 0; i < distances.length; i++) {
+            deviations.push(distances[i]-avg_dist);
+        }
+        console.log(deviations);
+        document.getElementById("image_feedback").innerHTML = deviations;
+    }
 
     cv.imshow("canvasOutput", dst)
 

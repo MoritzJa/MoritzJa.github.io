@@ -147,3 +147,10 @@ h2 {
 
     font-weight: 300;
 }
+
+#image_feedback {
+    font-size: min(5vh, 5vw);
+
+    grid-column: 6;
+    grid-row: 2;
+}
