@@ -174,7 +174,6 @@ function analyze_template() {
         for (let i = 0; i < distances.length; i++) {
             deviations.push(distances[i]-avg_dist);
         }
-        console.log(deviations);
         document.getElementById("image_feedback").innerHTML = deviations;
     }
 
