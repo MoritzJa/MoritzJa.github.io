@@ -124,11 +124,17 @@ async function access_camera(id) {
 function analyze_template() {
     let src = cv.imread("canvasOutput");
     let dst = new cv.Mat();
+    let circles = new cv.Mat();
 
     let low = new cv.Mat(src.rows, src.cols, src.type(), [150, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
     cv.inRange(src, low, high, dst);
+
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
+        1, 45, 75, 40, 0, 0);
+
+    document.getElementById("Step2_h").innerHTML = circles.cols;
 
     cv.imshow("canvasOutput", dst)
 
