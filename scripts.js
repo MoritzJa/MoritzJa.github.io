@@ -176,6 +176,12 @@ function analyze_template() {
         }
         deviation = deviation / distances.length;
         document.getElementById("image_feedback").innerHTML = Math.round(deviation);
+        if (deviation < 20) {
+            document.getElementById("canvasOutput").style.borderColor = "rgb(0,255,0)"
+        }
+        else {
+            document.getElementById("canvasOutput").style.borderColor = "rgb(255,0,0)"
+        }
     }
 
     cv.imshow("canvasOutput", dst)
