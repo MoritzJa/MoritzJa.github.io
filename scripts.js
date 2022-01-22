@@ -105,8 +105,9 @@ async function access_camera(id) {
         }, false );
 
         const constraints = {
-            video: true
-        };
+            audio: false, 
+	        video: {facingMode: { exact: "environment" }}
+        }
 
         mediaStream =  await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = mediaStream;
