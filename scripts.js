@@ -133,8 +133,6 @@ function analyze_template() {
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 50, 10, 10, 0, 200);
 
-    document.getElementById("Step2_h").innerHTML = circles.cols;
-
     const centres = [];
 
     for (let i = 0; i < circles.cols; ++i) {
@@ -146,6 +144,9 @@ function analyze_template() {
         cv.circle(dst, center, radius, color);
         centres.push(center);
     }
+
+    document.getElementById("Step2_h").innerHTML = centres.length;
+    document.getElementById("image_feedback").innerHTML = "Test";
 
     if (centres.length == 4) {
         var distances = [];
