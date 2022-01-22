@@ -175,7 +175,7 @@ function analyze_template() {
             deviation = deviation + Math.abs(distances[i]-avg_dist);
         }
         deviation = deviation / distances.length;
-        document.getElementById("image_feedback").innerHTML = deviation;
+        document.getElementById("image_feedback").innerHTML = Math.round(deviation);
     }
 
     cv.imshow("canvasOutput", dst)
