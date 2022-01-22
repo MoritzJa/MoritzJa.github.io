@@ -91,6 +91,7 @@ async function access_camera(id) {
             canvas.width = min_res;
             canvas.height = min_res;
             canvas.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, min_res, min_res);
+            analyze_template();
         }
 
         interval = setInterval(draw, 1000/60);
