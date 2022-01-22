@@ -91,7 +91,9 @@ async function access_camera(id) {
             canvas.width = min_res;
             canvas.height = min_res;
             canvas.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, min_res, min_res);
-            analyze_template();
+            if(canvas.width != 0) {
+                analyze_template();
+            }
         }
 
         interval = setInterval(draw, 1000/60);
@@ -121,7 +123,7 @@ async function access_camera(id) {
 
 function analyze_template() {
     let src = cv.imread("canvasOutput");
-    let dst = cv.Mat();
+    let dst = new cv.Mat();
 
     let low = new cv.Mat(src.rows, src.cols, src.type(), [150, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
