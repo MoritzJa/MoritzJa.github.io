@@ -131,7 +131,7 @@ function analyze_template() {
 
     cv.inRange(src, low, high, dst);
 
-    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 20, 10, 10, 0, 200);
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 100, 10, 10, 0, 200);
 
     document.getElementById("Step2_h").innerHTML = circles.cols;
 
