@@ -146,7 +146,6 @@ function analyze_template() {
     }
 
     document.getElementById("Step2_h").innerHTML = centres.length;
-    document.getElementById("image_feedback").innerHTML = "Test";
 
     if (centres.length == 4) {
         var distances = [];
@@ -171,11 +170,12 @@ function analyze_template() {
 
         avg_dist = avg_dist / distances.length;
 
-        var deviations = [];
+        var deviation = 0;
         for (let i = 0; i < distances.length; i++) {
-            deviations.push(distances[i]-avg_dist);
+            deviation = deviation + Math.abs(distances[i]-avg_dist);
         }
-        document.getElementById("image_feedback").innerHTML = deviations;
+        deviation = deviation / distances.length;
+        document.getElementById("image_feedback").innerHTML = deviation;
     }
 
     cv.imshow("canvasOutput", dst)
