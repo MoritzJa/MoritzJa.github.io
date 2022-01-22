@@ -118,4 +118,19 @@ async function access_camera(id) {
     }
 }
 
+function analyze_template() {
+    let src = cv.imread("canvasOutput");
+    let dst = cv.mat();
+
+    let low = new cv.Mat(src.rows, src.cols, src.type(), [150, 0, 0, 0]);
+    let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
+
+    cv.inRange(src, low, high, dst);
+
+    cv.imshow("canvasOutput", dst)
+
+    src.delete(); dst.delete(); low.delete(); high.delete();
+
+}
+
 var interval = null;
