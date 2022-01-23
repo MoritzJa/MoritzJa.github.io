@@ -101,8 +101,8 @@ async function access_camera(id) {
         var s_y = null;
 
         function draw() {
-            canvas.width = 450;
-            canvas.height = 450;
+            canvas.width = 400;
+            canvas.height = 400;
             canvas.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, canvas.width, canvas.height);
             original.width = min_res;
             original.height = min_res;
