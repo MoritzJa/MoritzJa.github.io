@@ -139,6 +139,14 @@ async function access_camera(id) {
     }
 }
 
+function close_stream () {
+    var stream = document.getElementById("input_video").srcObject;
+
+    stream.getTracks().forEach(function(track) {
+        track.stop();
+      });
+}
+
 function analyze_template() {
     var valid = false;
 
@@ -221,6 +229,8 @@ function analyze_template() {
 }
 
 function use_image() {
+    clearInterval(interval);
+    close_stream();
     reset_menu("Step2_reset");
     test("Step3");
 
