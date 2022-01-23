@@ -257,6 +257,8 @@ function use_image() {
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 500);
 
+    cv.imshow("base_image", dst);
+
     const centres = [];
     var x_low = 100000;
     var x_high = -1;
@@ -296,8 +298,7 @@ function use_image() {
     }
 
     document.getElementById("Step3_h").innerHTML = circles.cols;
-    cv.imshow("base_image", dst);
-    
+
     distances = distances.sort(function(a, b) {
     return a - b;
     });
