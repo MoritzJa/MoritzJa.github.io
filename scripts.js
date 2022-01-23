@@ -247,6 +247,8 @@ function use_image() {
     let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
+    cv.imshow("base_image", src);
+
     cv.inRange(src, low, high, dst);
 
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
@@ -347,8 +349,6 @@ function use_image() {
     }
 
     avg_dia = sum_avg_dia / num_particles;
-
-    console.log(num_particles);
 
     document.getElementById("Step3_h").innerHTML = avg_dia;
 }
