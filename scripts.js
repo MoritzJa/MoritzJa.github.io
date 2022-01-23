@@ -296,7 +296,8 @@ function use_image() {
     }
 
     document.getElementById("Step3_h").innerHTML = circles.cols;
-
+    cv.imshow("base_image", dst);
+    
     distances = distances.sort(function(a, b) {
     return a - b;
     });
