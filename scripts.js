@@ -249,11 +249,11 @@ function use_image() {
 
     cv.inRange(src, low, high, dst);
 
-    cv.imshow("base_image", dst);
-
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
     let anchor = new cv.Point(-1, -1);
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+
+    cv.imshow("base_image", dst);
 
     let circles = new cv.Mat();
 
