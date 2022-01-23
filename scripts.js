@@ -247,9 +247,9 @@ function use_image() {
     let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
-    cv.imshow("base_image", src);
-
     cv.inRange(src, low, high, dst);
+
+    cv.imshow("base_image", dst);
 
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
     let anchor = new cv.Point(-1, -1);
