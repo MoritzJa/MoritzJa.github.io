@@ -243,10 +243,6 @@ function use_image() {
     input = document.getElementById("canvasInput");
     output = document.getElementById("base_image");
 
-    output.width = input.width;
-    output.height = input.height;
-    output.getContext('2d').drawImage(input, 0, 0);
-
     let src = cv.imread("canvasInput");
     let dst = new cv.Mat();
     let circles = new cv.Mat();
@@ -292,9 +288,30 @@ function use_image() {
         let center = new cv.Point(x, y);
         centres.push(center);
     }
-    output.getContext('2d').strokeRect(x_low+max_rad, y_low+max_rad, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad);
+    output.width = x_high-x_low-2*max_rad;
+    output.height = y_high-y_low-2*max_rad;
+    output.getContext('2d').drawImage(input, x_low+max_rad, y_low+max_rad, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad, 0, 0, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad);
 
-    document.getElementById("Step3_h").innerHTML = centres.length;
+    var color_image = cv.imread("base_image");
+    var grey_image = new cv.Mat();
+    var thresh_image = new cv.Mat();
+    cv.cvtColor(color_image, grey_image, cv.COLOR_RGBA2GRAY, 0);
+    cv.threshold(grey_image, thresh_image, 60, 255, cv.THRESH_BINARY_INV);
+
+    let contours = new cv.MatVector();
+    let hierarchy = new cv.Mat();
+
+    cv.findContours(thresh_image, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+
+    cv.cvtColor(color_image, color_image, cv.COLOR_RGBA2RGB, 0);
+    
+    for (let i = 0; i < contours.size(); ++i) {
+        let color = new cv.Scalar(Math.round(Math.random() * 200)+55, Math.round(Math.random() * 200)+55,
+                                  Math.round(Math.random() * 200)+55);
+        cv.drawContours(color_image, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+    }
+    cv.imshow('base_image', color_image);
+    document.getElementById("Step3_h").innerHTML = contours.size();
 }
 
 var interval = null;
