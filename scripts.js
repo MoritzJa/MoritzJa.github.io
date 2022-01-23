@@ -253,8 +253,6 @@ function use_image() {
     let anchor = new cv.Point(-1, -1);
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
-    cv.imshow("base_image", dst);
-
     let circles = new cv.Mat();
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 500);
@@ -311,6 +309,8 @@ function use_image() {
     max_rad = 2 * max_rad;
     let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width-2*max_rad, min_width-2*max_rad);
     dst = src.roi(roi);
+    
+    cv.imshow("base_image", dst);
 
     cols_after = dst.cols;
 
