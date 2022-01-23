@@ -158,6 +158,9 @@ function analyze_template() {
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
     cv.inRange(src, low, high, dst);
+    let M = cv.Mat.ones(5, 5, cv.CV_8U);
+    let anchor = new cv.Point(-1, -1);
+    cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 50, 10, 10, 0, 50);
 
