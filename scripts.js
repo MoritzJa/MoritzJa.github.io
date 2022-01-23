@@ -301,7 +301,7 @@ function use_image() {
 
     distances = distances.splice(0, 4);
 
-    ref_before = distances.at(-1);
+    ref_before = distances[distances.length-1];
     const known_dist_mu = 150000;
     cols_before = dst.cols;
 
