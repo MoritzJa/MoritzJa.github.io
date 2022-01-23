@@ -126,8 +126,8 @@ async function access_camera(id) {
         const constraints = {
             audio: false, 
 	        video: {facingMode: 'environment',
-                    width: { ideal: 2000 },
-                    height: { ideal: 2000 }}
+                    width: { ideal: 4000 },
+                    height: { ideal: 4000 }}
         }
 
         mediaStream =  await navigator.mediaDevices.getUserMedia(constraints);
@@ -292,7 +292,7 @@ function use_image() {
     }
     output.getContext('2d').strokeRect(x_low+max_rad, y_low+max_rad, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad);
 
-    document.getElementById("Step3_h").innerHTML = centres.length;
+    document.getElementById("Step3_h").innerHTML = output.width;
 }
 
 var interval = null;
