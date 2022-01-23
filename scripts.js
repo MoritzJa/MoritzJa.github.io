@@ -228,6 +228,8 @@ function use_image() {
     output.width = input.width;
     output.height = input.height;
     output.getContext('2d').drawImage(input, 0, 0);
+
+    document.getElementById("Step3_h").innerHTML = output.height;
 }
 
 var interval = null;
