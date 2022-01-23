@@ -258,7 +258,7 @@ function use_image() {
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
     let anchor = new cv.Point(-1, -1);
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
-    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 200);
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 20, 0, 500);
 
     const centres = [];
 
