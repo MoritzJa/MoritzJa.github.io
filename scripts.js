@@ -311,7 +311,19 @@ function use_image() {
         cv.drawContours(color_image, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
     }
     cv.imshow('base_image', color_image);
-    document.getElementById("Step3_h").innerHTML = contours.size();
+
+    var num_particles = contours.size();
+    var sum_avg_dia = 0;
+    var avg_dia = null;
+    for (let i = 0; i < contours.size(); ++i) {
+        let area = cv.contourArea(contours.get(i), false);
+        let equiDiameter = Math.sqrt(4 * area / Math.PI);
+        sum_avg_dia = sum_avg_dia + equiDiameter;
+    }
+
+    avg_dia = sum_avg_dia / num_particles;
+
+    document.getElementById("Step3_h").innerHTML = avg_dia;
 }
 
 var interval = null;
