@@ -241,7 +241,52 @@ function use_image() {
     output.height = input.height;
     output.getContext('2d').drawImage(input, 0, 0);
 
-    document.getElementById("Step3_h").innerHTML = output.height;
+    let src = cv.imread("canvasInput");
+    let dst = new cv.Mat();
+    let circles = new cv.Mat();
+
+    let low = new cv.Mat(src.rows, src.cols, src.type(), [100, 0, 0, 0]);
+    let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
+
+    cv.inRange(src, low, high, dst);
+
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 50, 10, 10, 0, 200);
+
+    const centres = [];
+
+    var x_low = 100000;
+    var x_high = -1;
+    var y_low = 100000;
+    var y_high = -1;
+    var max_rad = -1;
+
+    for (let i = 0; i < circles.cols; ++i) {
+        let x = circles.data32F[i * 3];
+        let y = circles.data32F[i * 3 + 1];
+        let radius = circles.data32F[i * 3 + 2];
+        
+        if (x > x_high) {
+            x_high = x;
+        }
+        if (x < x_low) {
+            x_low = x;
+        }
+        if (y > y_high) {
+            y_high = y;
+        }
+        if (y < y_low) {
+            y_low = y;
+        }
+        if (radius > max_rad) {
+            max_rad= radius;
+        }
+
+        let center = new cv.Point(x, y);
+        centres.push(center);
+    }
+    output.getContext('2d').strokeRect(x_low+max_rad, y_low+max_rad, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad);
+
+    document.getElementById("Step3_h").innerHTML = centres.length;
 }
 
 var interval = null;
