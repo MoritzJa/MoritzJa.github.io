@@ -305,13 +305,13 @@ function use_image() {
     const known_dist_mu = 150000;
     cols_before = dst.cols;
 
+    document.getElementById("Step3_h").innerHTML = circles.cols;
+    cv.imshow("base_image", dst);
+
     min_width = Math.min(x_high-x_low, y_high-y_low);
     max_rad = 2 * max_rad;
     let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width-2*max_rad, min_width-2*max_rad);
     dst = src.roi(roi);
-
-    document.getElementById("Step3_h").innerHTML = circles.cols;
-    cv.imshow("base_image", dst);
 
     cols_after = dst.cols;
 
