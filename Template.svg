@@ -9,7 +9,7 @@
    id="svg5"
    inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="Template.svg"
-   inkscape:export-filename="C:\MeinZeug\Moritz\Projects\MoritzJa.github.io\circles.png"
+   inkscape:export-filename="C:\MeinZeug\Moritz\Projects\MoritzJa.github.io\0.5mmTest.png"
    inkscape:export-xdpi="143.99699"
    inkscape:export-ydpi="143.99699"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -26,9 +26,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.64052329"
-     inkscape:cx="397.33138"
-     inkscape:cy="561.25984"
+     inkscape:zoom="1.8116735"
+     inkscape:cx="393.83476"
+     inkscape:cy="575.98679"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="-8"
@@ -96,6 +96,22 @@
          sodipodi:open="true"
          sodipodi:arc-type="arc"
          d="m 170,165 a 5,5 0 0 1 -4.97766,4.99995 5,5 0 0 1 -5.02214,-4.95527 5,5 0 0 1 4.93278,-5.04423 5,5 0 0 1 5.06622,4.91019" />
+      <path
+         style="fill:#000000;stroke-width:3.26929;stroke-linejoin:round;stroke-dashoffset:1.23553"
+         id="path848"
+         sodipodi:type="arc"
+         sodipodi:cx="78.223999"
+         sodipodi:cy="109.4906"
+         sodipodi:rx="0.25"
+         sodipodi:ry="0.25"
+         sodipodi:start="0"
+         sodipodi:end="6.2653131"
+         sodipodi:open="true"
+         sodipodi:arc-type="arc"
+         d="m 78.473999,109.4906 a 0.25,0.25 0 0 1 -0.248883,0.25 0.25,0.25 0 0 1 -0.251107,-0.24777 0.25,0.25 0 0 1 0.246639,-0.25221 0.25,0.25 0 0 1 0.253311,0.24551"
+         inkscape:export-filename="C:\MeinZeug\Moritz\Projects\MoritzJa.github.io\1mmTest.png"
+         inkscape:export-xdpi="143.99699"
+         inkscape:export-ydpi="143.99699" />
     </g>
   </g>
 </svg>

@@ -240,30 +240,29 @@ function use_image() {
     reset_menu("Step2_reset");
     test("Step3");
 
-    input = document.getElementById("canvasInput");
-    output = document.getElementById("base_image");
-
     let src = cv.imread("canvasInput");
+
     let dst = new cv.Mat();
-    let circles = new cv.Mat();
 
     let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
     cv.inRange(src, low, high, dst);
+
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
     let anchor = new cv.Point(-1, -1);
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+
+    let circles = new cv.Mat();
+
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 500);
 
     const centres = [];
-
     var x_low = 100000;
     var x_high = -1;
     var y_low = 100000;
     var y_high = -1;
     var max_rad = -1;
-
     for (let i = 0; i < circles.cols; ++i) {
         let x = circles.data32F[i * 3];
         let y = circles.data32F[i * 3 + 1];
@@ -288,29 +287,55 @@ function use_image() {
         let center = new cv.Point(x, y);
         centres.push(center);
     }
-    output.width = x_high-x_low-2*max_rad;
-    output.height = y_high-y_low-2*max_rad;
-    output.getContext('2d').drawImage(input, x_low+max_rad, y_low+max_rad, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad, 0, 0, x_high-x_low-2*max_rad, y_high-y_low-2*max_rad);
 
-    var color_image = cv.imread("base_image");
+    var distances = [];
+    for (let i = 0; i < centres.length; i++) {
+        for (let j = i+1; j < centres.length; j++) {
+            distances.push(Math.sqrt(((centres[j].x - centres[i].x)*(centres[j].x - centres[i].x)) + ((centres[j].y - centres[i].y)*(centres[j].y - centres[i].y))));
+        }
+    }
+
+    distances = distances.sort(function(a, b) {
+    return a - b;
+    });
+
+    distances = distances.splice(0, 4);
+
+    ref_before = distances.at(-1);
+    const known_dist_mu = 150000;
+    cols_before = dst.cols;
+
+    min_width = Math.min(x_high-x_low, y_high-y_low);
+    max_rad = 2 * max_rad;
+    let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width-2*max_rad, min_width-2*max_rad);
+    dst = src.roi(roi);
+
+    cols_after = dst.cols;
+
+    scaler = known_dist_mu / ref_before;
+    factor = cols_after / cols_before;
+    scaler = scaler * factor;
+    
     var grey_image = new cv.Mat();
     var thresh_image = new cv.Mat();
-    cv.cvtColor(color_image, grey_image, cv.COLOR_RGBA2GRAY, 0);
-    cv.threshold(grey_image, thresh_image, 60, 255, cv.THRESH_BINARY_INV);
+
+    cv.cvtColor(dst, grey_image, cv.COLOR_RGBA2GRAY, 0);
+    cv.threshold(grey_image, thresh_image, 70, 255, cv.THRESH_BINARY_INV);
 
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
 
-    cv.findContours(thresh_image, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+    cv.findContours(thresh_image, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_KCOS);
 
-    cv.cvtColor(color_image, color_image, cv.COLOR_RGBA2RGB, 0);
-    
+    cv.cvtColor(dst, dst, cv.COLOR_RGBA2RGB, 0);
+
     for (let i = 0; i < contours.size(); ++i) {
         let color = new cv.Scalar(Math.round(Math.random() * 200)+55, Math.round(Math.random() * 200)+55,
                                   Math.round(Math.random() * 200)+55);
-        cv.drawContours(color_image, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+        cv.drawContours(dst, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
     }
-    cv.imshow('base_image', color_image);
+
+    cv.imshow("base_image", dst);
 
     var num_particles = contours.size();
     var sum_avg_dia = 0;
@@ -318,10 +343,12 @@ function use_image() {
     for (let i = 0; i < contours.size(); ++i) {
         let area = cv.contourArea(contours.get(i), false);
         let equiDiameter = Math.sqrt(4 * area / Math.PI);
-        sum_avg_dia = sum_avg_dia + equiDiameter;
+        sum_avg_dia = sum_avg_dia + equiDiameter * scaler;
     }
 
     avg_dia = sum_avg_dia / num_particles;
+
+    console.log(num_particles);
 
     document.getElementById("Step3_h").innerHTML = avg_dia;
 }
