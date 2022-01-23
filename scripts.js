@@ -257,8 +257,6 @@ function use_image() {
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 500);
 
-    document.getElementById("Step3_h").innerHTML = circles.cols;
-
     const centres = [];
     var x_low = 100000;
     var x_high = -1;
@@ -297,6 +295,8 @@ function use_image() {
         }
     }
 
+    document.getElementById("Step3_h").innerHTML = circles.cols;
+
     distances = distances.sort(function(a, b) {
     return a - b;
     });
@@ -311,8 +311,6 @@ function use_image() {
     max_rad = 2 * max_rad;
     let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width-2*max_rad, min_width-2*max_rad);
     dst = src.roi(roi);
-
-    cv.imshow("base_image", dst);
 
     cols_after = dst.cols;
 
