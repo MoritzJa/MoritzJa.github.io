@@ -161,6 +161,8 @@ function analyze_template() {
 
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 50, 10, 10, 0, 200);
 
+    cv.imshow("canvasOutput", dst)
+
     const centres = [];
 
     for (let i = 0; i < circles.cols; ++i) {
@@ -168,9 +170,12 @@ function analyze_template() {
         let y = circles.data32F[i * 3 + 1];
         let radius = circles.data32F[i * 3 + 2];
         let center = new cv.Point(x, y);
-        let color = new cv.Scalar(100, 100, 100);
-        cv.circle(dst, center, radius, color);
         centres.push(center);
+        var can = document.getElementById("canvasOutput").getContext('2d')
+        can.fillStyle = "rgb(0,255,0)";
+        can.beginPath();
+        can.arc(x, y, radius, 0, 2 * Math.PI);
+        can.fill();
     }
 
     document.getElementById("Step2_h").innerHTML = centres.length;
@@ -211,8 +216,6 @@ function analyze_template() {
             valid = false;
         }
     }
-
-    cv.imshow("canvasOutput", dst)
 
     var use = document.getElementById("use_image");
     if (valid) {
