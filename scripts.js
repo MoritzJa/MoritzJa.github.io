@@ -154,7 +154,7 @@ function analyze_template() {
     let dst = new cv.Mat();
     let circles = new cv.Mat();
 
-    let low = new cv.Mat(src.rows, src.cols, src.type(), [100, 0, 0, 0]);
+    let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
     cv.inRange(src, low, high, dst);
@@ -247,7 +247,7 @@ function use_image() {
     let dst = new cv.Mat();
     let circles = new cv.Mat();
 
-    let low = new cv.Mat(src.rows, src.cols, src.type(), [100, 0, 0, 0]);
+    let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
     let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
 
     cv.inRange(src, low, high, dst);
