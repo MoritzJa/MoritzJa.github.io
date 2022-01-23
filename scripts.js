@@ -15,6 +15,13 @@ function test(id) {
             all[i].style.display = "inline";
         }
     }
+
+    if (id == "Step3") {
+        var all = document.getElementsByClassName('inner_analyze');
+        for (var i = 0; i < all.length; i++) {
+            all[i].style.display = "inline";
+        }
+    }
 }
 
 function reset_menu(id) {
@@ -44,6 +51,11 @@ function reset_menu(id) {
     if (id == "Step3_reset") {
         elem.style.gridColumn = "1"
         elem.style.gridRow = "2"
+
+        var all = document.getElementsByClassName('inner_analyze');
+        for (var i = 0; i < all.length; i++) {
+            all[i].style.display = "none";
+        }
     }
 
     if (id == "Step4_reset") {
@@ -79,6 +91,7 @@ async function access_camera(id) {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const video = document.getElementById("input_video");
         const canvas = document.getElementById("canvasOutput");
+        const original = document.getElementById("canvasInput");
 
         var v_width = 0;
         var v_height = 0;
@@ -91,6 +104,9 @@ async function access_camera(id) {
             canvas.width = min_res;
             canvas.height = min_res;
             canvas.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, min_res, min_res);
+            original.width = min_res;
+            original.height = min_res;
+            original.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, min_res, min_res);
             if(canvas.width != 0) {
                 analyze_template();
             }
@@ -122,6 +138,8 @@ async function access_camera(id) {
 }
 
 function analyze_template() {
+    var valid = false;
+
     let src = cv.imread("canvasOutput");
     let dst = new cv.Mat();
     let circles = new cv.Mat();
@@ -177,17 +195,39 @@ function analyze_template() {
         deviation = deviation / distances.length;
         document.getElementById("image_feedback").innerHTML = Math.round(deviation);
         if (deviation < 20) {
-            document.getElementById("canvasOutput").style.borderColor = "rgb(0,255,0)"
+            valid = true;
         }
         else {
-            document.getElementById("canvasOutput").style.borderColor = "rgb(255,0,0)"
+            valid = false;
         }
     }
 
     cv.imshow("canvasOutput", dst)
 
+    var use = document.getElementById("use_image");
+    if (valid) {
+        use.style.display = "inline";
+        document.getElementById("canvasOutput").style.borderColor = "rgb(0,255,0)"
+    }
+    else {
+        use.style.display = "none";
+        document.getElementById("canvasOutput").style.borderColor = "rgb(255,0,0)"
+    }
+
     src.delete(); dst.delete(); low.delete(); high.delete();
 
+}
+
+function use_image() {
+    reset_menu("Step2_reset");
+    test("Step3");
+
+    input = document.getElementById("canvasInput");
+    output = document.getElementById("base_image");
+
+    output.width = input.width;
+    output.height = input.height;
+    output.getContext('2d').drawImage(input, 0, 0);
 }
 
 var interval = null;

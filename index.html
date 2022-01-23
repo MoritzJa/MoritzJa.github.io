@@ -23,12 +23,15 @@
 						<input type="file" name="image_uploads" id="fileInput" name="file" onchange="load_image(this.id)" onclick="set_image_reset_cam()"/>
 					</div>
 					<div id="TakeImageButton" class="button inner_image_upload" onclick="access_camera(this.id)"><h2>capture</h2></div>
-						<canvas id="canvasOutput" class="inner_image_upload"></canvas>
+					<canvas id="canvasInput" style="display: none;"></canvas>
+					<canvas id="canvasOutput" class="inner_image_upload"></canvas>
 					<div id="image_feedback" class="inner_image_upload">No image data.</div>
 					<div id="Step2_reset" class="reset_to_menu button" onclick="event.stopPropagation(); reset_menu(this.id)"><h2>menu</h2></div>
+					<div id="use_image" class="button" style="display: none;" onclick="event.stopPropagation(); use_image()"><h2>use image</h2></div>
 				</div>
 				<div id="Step3" class="quad" onclick="test(this.id)">
 					<h1 id="Step3_h">Step_3</h1>
+					<canvas id="base_image" class="inner_analyze"></canvas>
 					<div id="Step3_reset" class="reset_to_menu button" onclick="event.stopPropagation(); reset_menu(this.id)"><h2>menu</h2></div>
 				</div>
 				<div id="Step4" class="quad" onclick="test(this.id)">
