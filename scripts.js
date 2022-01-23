@@ -255,7 +255,7 @@ function use_image() {
 
     let circles = new cv.Mat();
 
-    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 0, 500);
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 1, 500, 10, 10, 30, 500);
 
     const centres = [];
     var x_low = 100000;
