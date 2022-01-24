@@ -105,18 +105,18 @@ async function startCameraAndCapture(id) {
 }
 
 function captureAndDraw() {
-    let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
-    let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
+    //read in from video stream
+    cap.read(org);
 
-    cap.read(src);
-
+    //crop into quadratic captured image
     let rect = new cv.Rect(s_x, s_y, min_res, min_res);
+    src = org.roi(rect);
 
-    dst = src.roi(rect);
+    //filter colors
+    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
 
+    //display final image
     cv.imshow('canvasOutputVideo', dst);
-
-    src.delete(); dst.delete();
 }
 
 var camState = false;
@@ -132,8 +132,12 @@ const canvas = document.getElementById("canvasOutputVideo");
 
 var cap = null;
 
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 2000;
+canvas.height = 2000;
+
+var org = null;
+var src = null;
+var dst = null;
 
 video.addEventListener("loadedmetadata", function (e) {
     video.play();
@@ -149,6 +153,10 @@ video.addEventListener("loadedmetadata", function (e) {
 
     original.width = min_res;
     original.height = min_res;
+
+    org = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+    src = new cv.Mat(min_res, min_res, cv.CV_8UC1)
+    dst = new cv.Mat(min_res, min_res, cv.CV_8UC1)
     
     cap = new cv.VideoCapture(this);
     interval = setInterval(captureAndDraw, 1000/60);
