@@ -115,7 +115,7 @@ function captureAndDraw() {
     //canvas.getContext('2d').putImageData(imageData, 0, 0);
     canvas.getContext('2d').drawImage(original, 0, 0);
 
-    source.delete(); destination.delete();
+    //source.delete(); destination.delete();
 }
 
 var camState = false;
