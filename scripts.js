@@ -129,8 +129,8 @@ const video = document.getElementById("inputVideo");
 const original = document.getElementById("Input");
 const canvas = document.getElementById("canvasOutputVideo");
 
-canvas.width = 100;
-canvas.height = 100;
+canvas.width = 500;
+canvas.height = 500;
 
 video.addEventListener("loadedmetadata", function (e) {
     video.play();
