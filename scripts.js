@@ -120,6 +120,21 @@ function captureAndDraw() {
     let anchor = new cv.Point(-1, -1);
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
+    //detect circles
+    let circles = new cv.Mat();
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 8, 1000, 10, 15, 50, 100);
+
+    //draw circles
+    cv.cvtColor(dst, dst, cv.COLOR_GRAY2RGB);
+    let color = new cv.Scalar(0, 255, 0);
+    for (let i = 0; i < circles.cols; ++i) {
+        let x = circles.data32F[i * 3];
+        let y = circles.data32F[i * 3 + 1];
+        let radius = circles.data32F[i * 3 + 2];
+        let center = new cv.Point(x, y);
+        cv.circle(dst, center, radius, color, -1);
+    }
+
     //display final image
     cv.imshow('canvasOutputVideo', dst);
 }
