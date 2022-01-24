@@ -113,7 +113,8 @@ function captureAndDraw() {
     analyzeImage(source, destination);
 
     canvas.getContext('2d').drawImage(destination, 0,0);
-    source.delete();
+
+    source.delete(); destination.delete();
 }
 
 function analyzeImage(src, dst) {
