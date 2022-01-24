@@ -122,19 +122,21 @@ function captureAndDraw() {
 
     //detect circles
     let circles = new cv.Mat();
-    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 8, 1000, 10, 15, 50, 100);
+    cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 8, 1000, 10, 15, 25, 100);
 
     //draw circles
     cv.cvtColor(dst, dst, cv.COLOR_GRAY2RGB);
+    const centres = [];
     let color = new cv.Scalar(0, 255, 0);
     for (let i = 0; i < circles.cols; ++i) {
         let x = circles.data32F[i * 3];
         let y = circles.data32F[i * 3 + 1];
         let radius = circles.data32F[i * 3 + 2];
         let center = new cv.Point(x, y);
+        centres.push(center);
         cv.circle(dst, center, radius, color, -1);
     }
-
+    document.getElementById("Step2Title").innerHTML = centres.length;
     //display final image
     cv.imshow('canvasOutputVideo', dst);
 }
