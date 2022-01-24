@@ -113,7 +113,7 @@ function captureAndDraw() {
     src = org.roi(rect);
 
     //filter colors
-    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+    cv.inRange(src, low, high, dst);
 
     //display final image
     cv.imshow('canvasOutputVideo', dst);
@@ -139,6 +139,9 @@ var org = null;
 var src = null;
 var dst = null;
 
+let low = null;
+let high = null;
+
 video.addEventListener("loadedmetadata", function (e) {
     video.play();
 
@@ -155,8 +158,10 @@ video.addEventListener("loadedmetadata", function (e) {
     original.height = min_res;
 
     org = new cv.Mat(video.height, video.width, cv.CV_8UC4);
-    src = new cv.Mat(min_res, min_res, cv.CV_8UC1)
-    dst = new cv.Mat(min_res, min_res, cv.CV_8UC1)
+    src = new cv.Mat(min_res, min_res, cv.CV_8UC4)
+    dst = new cv.Mat(min_res, min_res, cv.CV_8UC4)
+    low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
+    high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
     
     cap = new cv.VideoCapture(this);
     interval = setInterval(captureAndDraw, 1000/60);
