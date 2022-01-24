@@ -107,7 +107,7 @@ async function startCameraAndCapture(id) {
 function captureAndDraw() {
     original.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, canvas.width, canvas.height);
 
-    //var source = cv.imread("Input");
+    var source = cv.imread("Input");
     //var destination = new cv.Mat(source.rows, source.cols, source.type(), [0, 0, 0, 255]);
 
     //let imageData = new ImageData(new Uint8ClampedArray(source.data, source.cols, source.rows), source.cols, source.rows);
