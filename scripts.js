@@ -110,10 +110,11 @@ function captureAndDraw() {
     var source = cv.imread("Input");
     var destination = new cv.Mat(source.rows, source.cols, source.type(), [0, 0, 0, 255]);
 
-    let imageData = new ImageData(new Uint8ClampedArray(source.data, source.cols, source.rows), source.cols, source.rows);
+    //let imageData = new ImageData(new Uint8ClampedArray(source.data, source.cols, source.rows), source.cols, source.rows);
 
-    canvas.getContext('2d').putImageData(imageData, 0, 0);
-
+    //canvas.getContext('2d').putImageData(imageData, 0, 0);
+    canvas.getContext('2d').drawImage(original, 0, 0);
+    
     source.delete(); destination.delete();
 }
 
