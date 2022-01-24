@@ -114,7 +114,7 @@ function captureAndDraw() {
 
     //canvas.getContext('2d').putImageData(imageData, 0, 0);
     canvas.getContext('2d').drawImage(original, 0, 0);
-    
+
     source.delete(); destination.delete();
 }
 
@@ -143,9 +143,6 @@ video.addEventListener("loadedmetadata", function (e) {
 
     original.width = min_res;
     original.height = min_res;
-
-    canvas.width = min_res;
-    canvas.height = min_res;
 
     interval = setInterval(captureAndDraw, 1000/60);
 }, false );
