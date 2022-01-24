@@ -148,5 +148,5 @@ video.addEventListener("loadedmetadata", function (e) {
     original.height = min_res;
     
     cap = new cv.VideoCapture(this);
-    interval = setInterval(captureAndDraw, 1000/60);
+    interval = setInterval(captureAndDraw, 1000/30);
 }, false );
