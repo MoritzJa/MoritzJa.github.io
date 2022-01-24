@@ -80,6 +80,11 @@ async function startCameraAndCapture(id) {
             track.stop();
           });
 
+        button.style.borderColor = "rgb(0,0,0)"
+        canvas.style.borderColor = "rgb(0,0,0)"
+        feedback.style.borderColor = "rgb(0,0,0)"
+        feedback.style.backgroundColor = "transparent"
+
         camState = false;
     }
     else{
@@ -105,6 +110,8 @@ async function startCameraAndCapture(id) {
 }
 
 function captureAndDraw() {
+    var valid = false;
+
     //read in from video stream
     cap.read(org);
 
@@ -173,10 +180,27 @@ function captureAndDraw() {
         }
         deviation = deviation / distances.length;
         feedback.innerHTML = "deviation: " + Math.round(deviation);
+
+        if (deviation < 20) {
+            valid = true;
+        }
     }
 
     //display final image
     cv.imshow('canvasOutputVideo', dst);
+
+    if (valid){
+        document.getElementById("startCamera").style.borderColor = "rgb(0,200,0)"
+        canvas.style.borderColor = "rgb(0,200,0)"
+        feedback.style.borderColor = "rgb(0,200,0)"
+        feedback.style.backgroundColor = "rgb(0,150,0)"
+    }
+    else {
+        document.getElementById("startCamera").style.borderColor = "rgb(200,0,0)"
+        canvas.style.borderColor = "rgb(200,0,0)"
+        feedback.style.borderColor = "rgb(200,0,0)"
+        feedback.style.backgroundColor = "rgb(150,0,0)"
+    }
 }
 
 var camState = false;
