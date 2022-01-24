@@ -119,7 +119,7 @@ function analyzeImage() {
 
     cv.imshow("canvasOutputVideo", src);
 
-    src.delete();
+    src.delete(); low.delete(); high.delete();
 }
 
 var camState = false;
