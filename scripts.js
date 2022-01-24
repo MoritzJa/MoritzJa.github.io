@@ -106,7 +106,7 @@ async function startCameraAndCapture(id) {
 
 function captureAndDraw() {
     original.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, canvas.width, canvas.height);
-    analyzeImage();
+    canvas.getContext('2d').drawImage(original, 0,0);
 }
 
 function analyzeImage() {
