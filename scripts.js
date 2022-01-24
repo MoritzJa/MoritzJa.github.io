@@ -107,24 +107,16 @@ async function startCameraAndCapture(id) {
 function captureAndDraw() {
     original.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, canvas.width, canvas.height);
 
-    let source = cv.imread("Input");
-    let destination = new cv.Mat(source.rows, source.cols, source.type(), [0, 0, 0, 0]);
+    var source = cv.imread("Input");
+    var destination = new cv.Mat(source.rows, source.cols, source.type(), [0, 0, 0, 255]);
 
-    analyzeImage(source, destination);
+    destination = source.clone();
 
-    canvas.getContext('2d').drawImage(destination, 0,0);
+    let imageData = new ImageData(new Uint8ClampedArray(destination.data, destination.cols, destination.rows), destination.cols, destination.rows);
+
+    canvas.getContext('2d').putImageData(imageData, 0, 0);
 
     source.delete(); destination.delete();
-}
-
-function analyzeImage(src, dst) {
-    var valid = false;
-
-
-    let low = new cv.Mat(src.rows, src.cols, src.type(), [80, 0, 0, 0]);
-    let high = new cv.Mat(src.rows, src.cols, src.type(), [255, 100, 100, 255]);
-
-    low.delete(); high.delete();
 }
 
 var camState = false;
