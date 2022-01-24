@@ -137,6 +137,44 @@ function captureAndDraw() {
         cv.circle(dst, center, radius, color, -1);
     }
     document.getElementById("Step2Title").innerHTML = centres.length;
+
+    //only proceed if 4 centres are found
+    if (centres.length == 4) {
+        var distances = [];
+
+        //calculate all 6 distances
+        for (let i = 0; i < centres.length; i++) {
+            for (let j = i+1; j < centres.length; j++) {
+                distances.push(Math.sqrt(((centres[j].x - centres[i].x)*(centres[j].x - centres[i].x)) + ((centres[j].y - centres[i].y)*(centres[j].y - centres[i].y))));
+            }
+        }
+
+        //sort distances
+        distances = distances.sort(function(a, b) {
+        return a - b;
+        });
+
+        //remove the two longest distances (they are the diagonals)
+        distances = distances.splice(0, 4);
+
+        var avg_dist = 0;
+
+        for (const item of distances) {
+            avg_dist = avg_dist + item;
+        }
+
+        //calculate tge average distance
+        avg_dist = avg_dist / distances.length;
+
+        //calucalte average absolute deviation of distances as measure for rotation
+        var deviation = 0;
+        for (let i = 0; i < distances.length; i++) {
+            deviation = deviation + Math.abs(distances[i]-avg_dist);
+        }
+        deviation = deviation / distances.length;
+        feedback.innerHTML = "deviation: " + Math.round(deviation);
+    }
+
     //display final image
     cv.imshow('canvasOutputVideo', dst);
 }
@@ -151,6 +189,8 @@ min_res = null;
 const video = document.getElementById("inputVideo");
 const original = document.getElementById("Input");
 const canvas = document.getElementById("canvasOutputVideo");
+
+const feedback = document.getElementById("imageFeedback");
 
 var cap = null;
 

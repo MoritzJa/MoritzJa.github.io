@@ -143,3 +143,15 @@ html *{
 .Step4Content {
     display: none;
 }
+
+#imageFeedback {
+    grid-column: 5/8;
+    grid-row: 1;
+
+    border-style: solid;
+
+    margin-top: calc(10% - 3px);
+
+    width: 100%;
+    height: 90%;
+}
