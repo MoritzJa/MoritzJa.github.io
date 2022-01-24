@@ -110,7 +110,10 @@ function captureAndDraw() {
 
     cap.read(src);
 
-    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+    let rect = new cv.Rect(s_x, s_y, min_res, min_res);
+
+    dst = src.roi(rect);
+
     cv.imshow('canvasOutputVideo', dst);
 
     src.delete(); dst.delete();
@@ -148,5 +151,5 @@ video.addEventListener("loadedmetadata", function (e) {
     original.height = min_res;
     
     cap = new cv.VideoCapture(this);
-    interval = setInterval(captureAndDraw, 1000/30);
+    interval = setInterval(captureAndDraw, 1000/60);
 }, false );
