@@ -105,17 +105,15 @@ async function startCameraAndCapture(id) {
 }
 
 function captureAndDraw() {
-    original.getContext('2d').drawImage(video, s_x, s_y, min_res, min_res, 0, 0, canvas.width, canvas.height);
+    let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+    let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
 
-    var source = cv.imread("Input");
-    //var destination = new cv.Mat(source.rows, source.cols, source.type(), [0, 0, 0, 255]);
+    cap.read(src);
 
-    //let imageData = new ImageData(new Uint8ClampedArray(source.data, source.cols, source.rows), source.cols, source.rows);
+    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+    cv.imshow('canvasOutputVideo', dst);
 
-    //canvas.getContext('2d').putImageData(imageData, 0, 0);
-    canvas.getContext('2d').drawImage(original, 0, 0);
-
-    //source.delete(); destination.delete();
+    src.delete(); dst.delete();
 }
 
 var camState = false;
@@ -129,6 +127,8 @@ const video = document.getElementById("inputVideo");
 const original = document.getElementById("Input");
 const canvas = document.getElementById("canvasOutputVideo");
 
+var cap = null;
+
 canvas.width = 500;
 canvas.height = 500;
 
@@ -137,12 +137,16 @@ video.addEventListener("loadedmetadata", function (e) {
 
     v_width = this.videoWidth;
     v_height = this.videoHeight;
+    this.width = this.videoWidth;
+    this.height =this.videoHeight;
+
     min_res = Math.min(v_width, v_height);
     s_x = v_width / 2 - min_res / 2 ;
     s_y = v_height / 2 - min_res / 2 ;
 
     original.width = min_res;
     original.height = min_res;
-
+    
+    cap = new cv.VideoCapture(this);
     interval = setInterval(captureAndDraw, 1000/60);
 }, false );
