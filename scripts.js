@@ -172,7 +172,7 @@ function captureAndDraw() {
         //remove the two longest distances (they are the diagonals)
         distances = distances.splice(0, 4);
 
-        var avg_dist = 0;
+        avg_dist = 0;
 
         for (const item of distances) {
             avg_dist = avg_dist + item;
@@ -237,21 +237,59 @@ function analyse() {
         }
     }
 
+    //calculate and mark measurement area
     min_width = Math.min(x_high-x_low, y_high-y_low);
 
     let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width, min_width);
 
     cropped = new cv.Mat(min_width, min_width, cv.CV_8UC4);
-    let color = new cv.Scalar(0, 255, 0);
+    croppedThresh = new cv.Mat(min_width, min_width, cv.CV_8UC4);
+    let color = new cv.Scalar(0, 0, 0);
     let safety = 10;
     let lt = new cv.Point(x_low+max_rad+safety, y_low+max_rad+safety);
     let rb = new cv.Point(x_high-max_rad-safety, y_high-max_rad-safety);
-    cv.rectangle(src, lt, rb, color, 3);
+    //cv.rectangle(src, lt, rb, color, 4);
 
-    //cropped = src.roi(roi);
+    //crop into safe area
+    var rect = new cv.Rect(x_low+max_rad+safety, y_low+max_rad+safety, min_width-2*max_rad-2*safety, min_width-2*max_rad-2*safety); 
+    cropped = src.roi(rect);
+
+    //grey image
+    cv.cvtColor(cropped, croppedThresh, cv.COLOR_RGBA2GRAY, 0);
+
+    //thresh image
+    cv.threshold(croppedThresh, croppedThresh, 100, 255, cv.THRESH_BINARY_INV);
+
+    //find contours
+    let contours = new cv.MatVector();
+    let hierarchy = new cv.Mat();
+    cv.findContours(croppedThresh, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_KCOS);
+
+    //draw conrours
+    cv.cvtColor(cropped, cropped, cv.COLOR_RGBA2RGB, 0);
+    for (let i = 0; i < contours.size(); ++i) {
+        let color = new cv.Scalar(Math.round(Math.random() * 200)+55, Math.round(Math.random() * 200)+55,
+                                  Math.round(Math.random() * 200)+55);
+        cv.drawContours(cropped, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+    }
+
+    num_particles = contours.size();
+    var sum_avg_dia = 0;
+    avg_dia = null;
+    scaler = known_dist_mu / avg_dist;
+    for (let i = 0; i < contours.size(); ++i) {
+        let area = cv.contourArea(contours.get(i), false);
+        let equiDiameter = Math.sqrt(4 * area / Math.PI);
+        sum_avg_dia = sum_avg_dia + equiDiameter * scaler;
+    }
+
+    avg_dia = sum_avg_dia / num_particles;
+
+    descriptionAmount.innerHTML = "#: " + num_particles;
+    descriptionSize.innerHTML = "avg. size: " + Math.round(avg_dia);
 
     //display final image
-    cv.imshow('canvasFinalImage', src);
+    cv.imshow('canvasFinalImage', cropped);
 }
 
 var camState = false;
@@ -266,6 +304,8 @@ const original = document.getElementById("Input");
 const canvas = document.getElementById("canvasOutputVideo");
 
 const feedback = document.getElementById("imageFeedback");
+const descriptionSize = document.getElementById("imageDescriptionSize");
+const descriptionAmount = document.getElementById("imageDescriptionAmount");
 
 var cap = null;
 
@@ -276,13 +316,21 @@ var org = null;
 var src = null;
 var dst = null;
 var cropped = null;
+var croppedThresh = null;
 
 let circles = new cv.Mat();
+
+var avg_dist = null;
+const known_dist_mu = 150000;
+var scaler = null;
 
 let low = null;
 let high = null;
 
 var valid = false;
+
+var num_particles = null;
+var avg_dia = null;
 
 video.addEventListener("loadedmetadata", function (e) {
     video.play();
