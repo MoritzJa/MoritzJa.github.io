@@ -258,7 +258,7 @@ function analyse() {
     cv.cvtColor(cropped, croppedThresh, cv.COLOR_RGBA2GRAY, 0);
 
     //thresh image
-    cv.threshold(croppedThresh, croppedThresh, 70, 255, cv.THRESH_BINARY_INV);
+    cv.threshold(croppedThresh, croppedThresh, 80, 255, cv.THRESH_BINARY_INV);
 
     //find contours
     let contours = new cv.MatVector();
