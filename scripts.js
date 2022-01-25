@@ -311,6 +311,7 @@ function analyse() {
     for (const desc of descriptionSize) {
         desc.innerHTML = "avg. size: " + Math.round(avg_dia);
     }
+    descriptionSizeMedian.innerHTML = "med. size: " + Math.round(median_dia);
     done = true;
     //display final image
     cv.imshow('canvasFinalImage', cropped);
@@ -328,7 +329,7 @@ function createChart() {
     for (let i = 0; i < labelList.length; ++i) {
         var temp = 0;
         for (const part of diameterList) {
-            if (part < 100 && i == 0) {
+            if (part < 50 && i == 0) {
                 temp = temp + 1;
             }
             else if (part > labelList[i]-50 && part < labelList[i]+50) {
@@ -446,6 +447,7 @@ const canvas = document.getElementById("canvasOutputVideo");
 
 const feedback = document.getElementById("imageFeedback");
 const descriptionSize = document.getElementsByClassName("imageDescriptionSize");
+const descriptionSizeMedian = document.getElementById("imageDescriptionSizeMedian2");
 const descriptionAmount = document.getElementsByClassName("imageDescriptionAmount");
 const descriptionFines = document.getElementById("imageDescriptionFines2");
 
