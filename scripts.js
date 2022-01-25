@@ -120,6 +120,7 @@ async function startCameraAndCapture(id) {
 
 function captureAndDraw() {
     valid = false;
+    circles = cv.Mat.zeros(circles.rows, circles.cols, cv.CV_32FC3);
 
     //read in from video stream
     cap.read(org);
