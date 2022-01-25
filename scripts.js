@@ -292,11 +292,24 @@ function analyse() {
 
     avg_dia = sum_avg_dia / num_particles;
 
+    diameterList = diameterList.sort(function(a, b) {
+        return a - b;
+    });
+    
+    var half = Math.floor(diameterList.length / 2);
+
+    if (diameterList.length % 2) {
+        median_dia = diameterList[half];
+    }
+    else {
+        median_dia = (diameterList[half - 1] + diameterList[half]) / 2.0;
+    }
+
     for (const desc of descriptionAmount) {
         desc.innerHTML = "#: " + num_particles;
     }
     for (const desc of descriptionSize) {
-        desc.innerHTML = "avg. size: " + Math.round(avg_dia);
+        desc.innerHTML = "med. size: " + Math.round(median_dia);
     }
     done = true;
     //display final image
@@ -304,10 +317,6 @@ function analyse() {
 }
 
 function createChart() {
-    diameterList = diameterList.sort(function(a, b) {
-        return a - b;
-        });
-    
     var labelList = []
     for (let i = 0; i <= 2000; i = i+100) {
         labelList.push(i);
@@ -467,6 +476,7 @@ var done = false;
 var diameterList = null;
 var num_particles = null;
 var avg_dia = null;
+var median_dia = null;
 
 var myChart = null;
 
