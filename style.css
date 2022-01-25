@@ -75,6 +75,8 @@ html *{
     margin-bottom: 0;
     line-height: 0.6;
     font-weight: 700;
+
+    padding: 16px;
 }
 
 .Canv {
