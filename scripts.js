@@ -152,7 +152,6 @@ function captureAndDraw() {
         centres.push(center);
         cv.circle(dst, center, radius, color, -1);
     }
-    document.getElementById("Step2Title").innerHTML = centres.length;
 
     //only proceed if 4 centres are found
     if (centres.length == 4) {
