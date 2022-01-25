@@ -309,7 +309,7 @@ function analyse() {
         desc.innerHTML = "#: " + num_particles;
     }
     for (const desc of descriptionSize) {
-        desc.innerHTML = "med. size: " + Math.round(median_dia);
+        desc.innerHTML = "avg. size: " + Math.round(avg_dia);
     }
     done = true;
     //display final image
