@@ -4,6 +4,7 @@
       <link rel="stylesheet" href="style.css">
 	  <link rel="stylesheet" href="https://unpkg.com/sanitize.css"/>
       <title>Grounds Analyzer</title>
+	  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	  <script src="opencv.js" type="text/javascript"></script>
 	  <script src="scripts.js" defer></script>
     </head>
@@ -13,6 +14,13 @@
 
 				<div id="Step1" class="quad" onclick="zoomIn(this.id)">
 					<div id="Step1Title" class="Title">1: Instructions</div>
+					<div id="Instructions" class="Step1Content">
+						Communicating coffee grind sizes and grind distributions is hard. <br>
+						Measuring those features typically requires expensive hardware, not easily acessible to most people. <br><br>
+						This tool is an alternative, only requiring a phone and a printer. To analyze your grinds print this <a href="Resources\Template.pdf" target="_blank" style="text-decoration:underline; font-weight: bold">Template</a>. The red dots should be evenly spaced on a 15cm grid. <br>
+						Place the grounds of approximatly one coffee bean into the square and distribute the particles to reduce overlapping. <br>
+						Proceed by taking a level picture in the next step and follow the steps to your final analysis. 
+					</div>
 					<div id="Step1Menu" class="Menu Button Step1Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
 					<div id="NextStep1" class="Button Step1Content NextStep" onclick="event.stopPropagation(); next(this.id)">next</div>
 				</div>
@@ -33,13 +41,19 @@
 					<canvas id="canvasFinalImage" class="Step3Content Canv"></canvas>
 					<div id="Step3Menu" class="Menu Button Step3Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
 					<div id="NextStep3" class="Button Step3Content NextStep" onclick="event.stopPropagation(); next(this.id)">analysis</div>
-					<div id="imageDescriptionAmount" class="Step3Content Button">avg. size: NAN</div>
-					<div id="imageDescriptionSize" class="Step3Content Button">#: NAN</div>
+					<div id="imageDescriptionAmount3" class="Step3Content Button imageDescriptionAmount">avg. size: NAN</div>
+					<div id="imageDescriptionSize3" class="Step3Content Button imageDescriptionSize">#: NAN</div>
 				</div>
 
 				<div id="Step4" class="quad" onclick="zoomIn(this.id)">
 					<div id="Step4Title" class="Title">4: Analysis</div>
 					<div id="Step4Menu" class="Menu Button Step4Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
+					<div id="analysis" class="Step4Content Canv finalCanv">
+						<canvas id="myChart"></canvas>
+					</div>
+					<div id="imageDescriptionAmount2" class="Step4Content Button imageDescriptionAmount">avg. size: NAN</div>
+					<div id="imageDescriptionSize2" class="Step4Content Button imageDescriptionSize">#: NAN</div>
+					<div id="imageDescriptionFines2" class="Step4Content Button imageDescriptionFines">% fines (&lt;100mu):</div>
 				</div>
 
 			</div>

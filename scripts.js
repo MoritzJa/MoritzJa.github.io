@@ -68,8 +68,11 @@ function next(id) {
         }
     }
     else if (i == "Step3") {
-        zoomReset(i);
-        zoomIn("Step4");
+        if (valid && !camState && done) {
+            zoomReset(i);
+            zoomIn("Step4");
+            createChart();
+        }
     }
 }
 
@@ -119,6 +122,7 @@ async function startCameraAndCapture(id) {
 }
 
 function captureAndDraw() {
+    done = false;
     valid = false;
     circles = cv.Mat.zeros(circles.rows, circles.cols, cv.CV_32FC3);
 
@@ -210,6 +214,7 @@ function captureAndDraw() {
 }
 
 function analyse() {
+    done = false;
     var x_low = 100000;
     var x_high = -1;
     var y_low = 100000;
@@ -274,22 +279,149 @@ function analyse() {
     }
 
     num_particles = contours.size();
+    diameterList = [];
     var sum_avg_dia = 0;
     avg_dia = null;
     scaler = known_dist_mu / avg_dist;
     for (let i = 0; i < contours.size(); ++i) {
         let area = cv.contourArea(contours.get(i), false);
         let equiDiameter = Math.sqrt(4 * area / Math.PI);
+        diameterList.push(equiDiameter * scaler);
         sum_avg_dia = sum_avg_dia + equiDiameter * scaler;
     }
 
     avg_dia = sum_avg_dia / num_particles;
 
-    descriptionAmount.innerHTML = "#: " + num_particles;
-    descriptionSize.innerHTML = "avg. size: " + Math.round(avg_dia);
-
+    for (const desc of descriptionAmount) {
+        desc.innerHTML = "#: " + num_particles;
+    }
+    for (const desc of descriptionSize) {
+        desc.innerHTML = "avg. size: " + Math.round(avg_dia);
+    }
+    done = true;
     //display final image
     cv.imshow('canvasFinalImage', cropped);
+}
+
+function createChart() {
+    diameterList = diameterList.sort(function(a, b) {
+        return a - b;
+        });
+    
+    var labelList = []
+    for (let i = 0; i <= 2000; i = i+100) {
+        labelList.push(i);
+    }
+
+    labelList[0] = "<100"
+
+    var buckets = []
+    for (let i = 0; i < labelList.length; ++i) {
+        var temp = 0;
+        for (const part of diameterList) {
+            if (part < 100 && i == 0) {
+                temp = temp + 1;
+            }
+            else if (part > labelList[i]-50 && part < labelList[i]+50) {
+                temp = temp + 1;
+            }
+        }
+        buckets.push(temp);
+    }
+    for (var bkt of buckets) {
+        bkt = bkt / num_particles;
+    }
+
+    fines = buckets.shift();
+    fines = fines * 100;
+    fines = Math.round(fines / num_particles);
+    labelList.shift();
+
+    descriptionFines.innerHTML = "% fines (<100mu): " + fines;
+
+    const data = {
+        labels: labelList,
+        datasets: [{
+          backgroundColor: 'rgb(23, 119, 128)',
+          borderColor: 'rgb(23, 119, 128)',
+          data: buckets,
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        label: '% particles',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                  display: false
+                },
+                tooltip: {
+                    titleFont: {
+                        family: 'Dongle',
+                        size: 60,
+                        weight: 'bold',
+                        lineHeight: 1.2,
+                    },
+                    bodyFont: {
+                        family: 'Dongle',
+                        size: 60,
+                        weight: 'bold',
+                        lineHeight: 1.2,
+                    },
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            family: 'Dongle',
+                            size: 40,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                          },
+                    },
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'particle size in mu',
+                        font: {
+                            family: 'Dongle',
+                            size: 40,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                          },    
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            family: 'Dongle',
+                            size: 40,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                          },
+                    },
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'percentage of distribution',
+                        font: {
+                            family: 'Dongle',
+                            size: 40,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                          },    
+                    }
+                }
+            }
+        }
+    };
+    if (myChart != null) {
+        myChart.destroy();
+    }
+    myChart = new Chart(document.getElementById('myChart'), config);
 }
 
 var camState = false;
@@ -304,8 +436,9 @@ const original = document.getElementById("Input");
 const canvas = document.getElementById("canvasOutputVideo");
 
 const feedback = document.getElementById("imageFeedback");
-const descriptionSize = document.getElementById("imageDescriptionSize");
-const descriptionAmount = document.getElementById("imageDescriptionAmount");
+const descriptionSize = document.getElementsByClassName("imageDescriptionSize");
+const descriptionAmount = document.getElementsByClassName("imageDescriptionAmount");
+const descriptionFines = document.getElementById("imageDescriptionFines2");
 
 var cap = null;
 
@@ -329,8 +462,13 @@ let high = null;
 
 var valid = false;
 
+var done = false;
+
+var diameterList = null;
 var num_particles = null;
 var avg_dia = null;
+
+var myChart = null;
 
 video.addEventListener("loadedmetadata", function (e) {
     video.play();
