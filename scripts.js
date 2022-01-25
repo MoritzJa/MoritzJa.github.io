@@ -55,16 +55,21 @@ function menu(id) {
 
 function next(id) {
     var i = document.getElementById(id).parentElement.id;
-    zoomReset(i);
 
     if (i == "Step1") {
-        zoomIn("Step2")
+        zoomReset(i);
+        zoomIn("Step2");
     }
     else if (i == "Step2") {
-        zoomIn("Step3")
+        if (valid && !camState) {
+            zoomReset(i);
+            analyse();
+            zoomIn("Step3");
+        }
     }
     else if (i == "Step3") {
-        zoomIn("Step4")
+        zoomReset(i);
+        zoomIn("Step4");
     }
 }
 
@@ -78,16 +83,20 @@ async function startCameraAndCapture(id) {
         var stream = video.srcObject;
         stream.getTracks().forEach(function(track) {
             track.stop();
-          });
+        });
 
-        button.style.borderColor = "rgb(0,0,0)"
-        canvas.style.borderColor = "rgb(0,0,0)"
-        feedback.style.borderColor = "rgb(0,0,0)"
-        feedback.style.backgroundColor = "transparent"
+        if (valid) {
+            document.getElementById("NextStep2").style.backgroundColor = "rgb(0,150,0)";
+        }
+        else {
+            document.getElementById("NextStep2").style.backgroundColor = "rgb(150,0,0)";
+        }
 
         camState = false;
     }
     else{
+        document.getElementById("NextStep2").style.backgroundColor = "rgb(150,0,0)";
+
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             const constraints = {
                 audio: false, 
@@ -110,7 +119,7 @@ async function startCameraAndCapture(id) {
 }
 
 function captureAndDraw() {
-    var valid = false;
+    valid = false;
 
     //read in from video stream
     cap.read(org);
@@ -128,7 +137,6 @@ function captureAndDraw() {
     cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
     //detect circles
-    let circles = new cv.Mat();
     cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT, 8, 1000, 10, 15, 25, 100);
 
     //draw circles
@@ -189,18 +197,61 @@ function captureAndDraw() {
     //display final image
     cv.imshow('canvasOutputVideo', dst);
 
-    if (valid){
-        document.getElementById("startCamera").style.borderColor = "rgb(0,200,0)"
-        canvas.style.borderColor = "rgb(0,200,0)"
-        feedback.style.borderColor = "rgb(0,200,0)"
-        feedback.style.backgroundColor = "rgb(0,150,0)"
+    if (valid && centres.length == 4){
+        canvas.style.borderColor = "rgb(0,200,0)";
+        feedback.style.borderColor = "rgb(0,200,0)";
+        feedback.style.backgroundColor = "rgb(0,150,0)";
     }
     else {
-        document.getElementById("startCamera").style.borderColor = "rgb(200,0,0)"
-        canvas.style.borderColor = "rgb(200,0,0)"
-        feedback.style.borderColor = "rgb(200,0,0)"
-        feedback.style.backgroundColor = "rgb(150,0,0)"
+        canvas.style.borderColor = "rgb(200,0,0)";
+        feedback.style.borderColor = "rgb(200,0,0)";
+        feedback.style.backgroundColor = "rgb(150,0,0)";
     }
+}
+
+function analyse() {
+    var x_low = 100000;
+    var x_high = -1;
+    var y_low = 100000;
+    var y_high = -1;
+    var max_rad = -1;
+    for (let i = 0; i < circles.cols; ++i) {
+        let x = circles.data32F[i * 3];
+        let y = circles.data32F[i * 3 + 1];
+        let radius = circles.data32F[i * 3 + 2];
+        
+        if (x > x_high) {
+            x_high = x;
+        }
+        if (x < x_low) {
+            x_low = x;
+        }
+        if (y > y_high) {
+            y_high = y;
+        }
+        if (y < y_low) {
+            y_low = y;
+        }
+        if (radius > max_rad) {
+            max_rad= radius;
+        }
+    }
+
+    min_width = Math.min(x_high-x_low, y_high-y_low);
+
+    let roi = new cv.Rect(x_low+max_rad, y_low+max_rad, min_width, min_width);
+
+    cropped = new cv.Mat(min_width, min_width, cv.CV_8UC4);
+    let color = new cv.Scalar(0, 255, 0);
+    let safety = 20;
+    let lt = new cv.Point(x_low+max_rad+safety, y_low+max_rad+safety);
+    let rb = new cv.Point(x_high-max_rad-safety, y_high-max_rad-safety);
+    cv.rectangle(src, lt, rb, color, 3);
+
+    //cropped = src.roi(roi);
+
+    //display final image
+    cv.imshow('canvasFinalImage', src);
 }
 
 var camState = false;
@@ -224,9 +275,14 @@ canvas.height = 2000;
 var org = null;
 var src = null;
 var dst = null;
+var cropped = null;
+
+let circles = new cv.Mat();
 
 let low = null;
 let high = null;
+
+var valid = false;
 
 video.addEventListener("loadedmetadata", function (e) {
     video.play();

@@ -155,3 +155,7 @@ html *{
     width: 100%;
     height: 90%;
 }
+
+#NextStep2 {
+    background-color: rgb(150,0,0);
+}
