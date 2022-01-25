@@ -244,7 +244,7 @@ function analyse() {
 
     cropped = new cv.Mat(min_width, min_width, cv.CV_8UC4);
     let color = new cv.Scalar(0, 255, 0);
-    let safety = 20;
+    let safety = 10;
     let lt = new cv.Point(x_low+max_rad+safety, y_low+max_rad+safety);
     let rb = new cv.Point(x_high-max_rad-safety, y_high-max_rad-safety);
     cv.rectangle(src, lt, rb, color, 3);
