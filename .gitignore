@@ -1,4 +1,3 @@
 
 *.png
-Icon_Analysis.png
-*.png
+!Icon_*.png
