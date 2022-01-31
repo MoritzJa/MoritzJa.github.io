@@ -6,6 +6,7 @@ function zoomIn(id) {
     elem.style.gridColumn = "1/3";
     elem.style.gridRow = "1/3";
     elem.style.zIndex = "1";
+    elem.style.backgroundImage = "none";
 
     var all = document.getElementsByClassName(id+'Content');
     for (var i = 0; i < all.length; i++) {
@@ -29,18 +30,22 @@ function zoomReset(id) {
     if (id == "Step1") {
         elem.style.gridColumn = "1";
         elem.style.gridRow = "1";
+        elem.style.backgroundImage = "url(Icon_i.png)";
     }
     else if (id == "Step2") {
         elem.style.gridColumn = "2";
         elem.style.gridRow = "1";
+        elem.style.backgroundImage = "url(Icon_Camera.png)";
     }
     else if (id == "Step3") {
         elem.style.gridColumn = "1";
         elem.style.gridRow = "2";
+        elem.style.backgroundImage = "url(Icon_Result.png)";
     }
     else if (id == "Step4") {
         elem.style.gridColumn = "2";
         elem.style.gridRow = "2";
+        elem.style.backgroundImage = "url(Icon_Analysis.png)";
     }
 
     var all = document.getElementsByClassName(id+'Content');
