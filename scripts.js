@@ -30,22 +30,22 @@ function zoomReset(id) {
     if (id == "Step1") {
         elem.style.gridColumn = "1";
         elem.style.gridRow = "1";
-        elem.style.backgroundImage = "url(Icon_i.png)";
+        elem.style.backgroundImage = "url(Resources/Icon_i.png)";
     }
     else if (id == "Step2") {
         elem.style.gridColumn = "2";
         elem.style.gridRow = "1";
-        elem.style.backgroundImage = "url(Icon_Camera.png)";
+        elem.style.backgroundImage = "url(Resources/Icon_Camera.png)";
     }
     else if (id == "Step3") {
         elem.style.gridColumn = "1";
         elem.style.gridRow = "2";
-        elem.style.backgroundImage = "url(Icon_Result.png)";
+        elem.style.backgroundImage = "url(Resources/Icon_Result.png)";
     }
     else if (id == "Step4") {
         elem.style.gridColumn = "2";
         elem.style.gridRow = "2";
-        elem.style.backgroundImage = "url(Icon_Analysis.png)";
+        elem.style.backgroundImage = "url(Resources/Icon_Analysis.png)";
     }
 
     var all = document.getElementsByClassName(id+'Content');
