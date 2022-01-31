@@ -111,7 +111,7 @@ html *{
     grid-row: 1;
 
     background-color: rgb(241, 222, 199);
-    background-image: url(Resources\Icon_i.png);
+    background-image: url(Resources/Icon_i.png);
     background-position: center center;
     background-size: min(10vh, 10vw);
 }
