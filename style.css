@@ -28,18 +28,18 @@ html *{
 }
 
 #Leftupper {
-    background-image: url(PNG_SW.png);
+    background-image: url(Resources\PNG_SW.png);
     background-color: rgb(216, 210, 187);
 }
 
 #Rightlower {
-    background-image: url(PNG_SW_II.png);
+    background-image: url(Resources\PNG_SW_II.png);
     background-color: rgb(216, 210, 187);
 }
 
 @media all and (orientation:portrait) {
     #Leftupper {
-        background-image: url(PNG_SW.png), linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(150, 150, 150, 255));
+        background-image: url(Resources\PNG_SW.png), linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(150, 150, 150, 255));
         width: 100vw;
         height: calc((100vh - 100vw) / 2);
 
@@ -50,7 +50,7 @@ html *{
     }
 
     #Rightlower {
-        background-image: url(PNG_SW_II.png), linear-gradient(to top, rgba(255, 255, 255, 0), rgba(150, 150, 150, 255));
+        background-image: url(Resources\PNG_SW_II.png), linear-gradient(to top, rgba(255, 255, 255, 0), rgba(150, 150, 150, 255));
         width: 100vw;
         height: calc((100vh - 100vw) / 2);
 
@@ -111,7 +111,7 @@ html *{
     grid-row: 1;
 
     background-color: rgb(241, 222, 199);
-    background-image: url(Icon_i.png);
+    background-image: url(Resources\Icon_i.png);
     background-position: center center;
     background-size: min(10vh, 10vw);
 }
@@ -121,7 +121,7 @@ html *{
     grid-row: 1;
 
     background-color: rgb(180 231 206);
-    background-image: url(Icon_Camera.png);
+    background-image: url(Resources\Icon_Camera.png);
     background-position: center center;
     background-size: min(10vh, 10vw);
 }
@@ -131,7 +131,7 @@ html *{
     grid-row: 2;
 
     background-color: rgb(170, 196, 221);
-    background-image: url(Icon_Result.png);
+    background-image: url(Resources\Icon_Result.png);
     background-position: center center;
     background-size: min(10vh, 10vw);
 }
@@ -141,7 +141,7 @@ html *{
     grid-row: 2;
 
     background-color: rgb(227, 180, 213);
-    background-image: url(Icon_Analysis.png);
+    background-image: url(Resources\Icon_Analysis.png);
     background-position: center center;
     background-size: min(10vh, 10vw);
 }
