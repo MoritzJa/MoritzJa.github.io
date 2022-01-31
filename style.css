@@ -85,7 +85,7 @@ html *{
         grid-column: 3;
         grid-row: 1;
 
-        background-position: left -25vh;
+        background-position: left 25vh;
         background-size: 50vh;
     }
 
