@@ -1,65 +1,97 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <link rel="stylesheet" href="https://unpkg.com/sanitize.css"/>
       <link rel="stylesheet" href="style.css">
-	  <link rel="stylesheet" href="https://unpkg.com/sanitize.css"/>
-      <title>Grounds Analyzer</title>
-	  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	  <script src="opencv.js" type="text/javascript"></script>
+      <title>Moritz Jarosch</title>
 	  <script src="scripts.js" defer></script>
     </head>
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
     <body>
-		<div id="MainWrapper">
-			<div id="Leftupper"></div>
-			<div id="Wrapper">
-
-				<div id="Step1" class="quad" onclick="zoomIn(this.id)">
-					<div id="Step1Title" class="Title">1: Instructions</div>
-					<div id="Instructions" class="Step1Content">
-						Communicating coffee grind sizes and grind distributions is hard. <br>
-						Measuring those features typically requires expensive hardware, not easily acessible to most people. <br><br>
-						This tool is an alternative, only requiring a phone and a printer. To analyze your grinds print this <a href="Resources\Template.pdf" target="_blank" style="text-decoration:underline; font-weight: bold">Template</a>. The red dots should be evenly spaced on a 15cm grid. <br>
-						Place the grounds of approximatly one coffee bean into the square and distribute the particles to reduce overlapping. <br>
-						Proceed by taking a level picture in the next step and follow the steps to your final analysis. 
-					</div>
-					<div id="Step1Menu" class="Menu Button Step1Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
-					<div id="NextStep1" class="Button Step1Content NextStep" onclick="event.stopPropagation(); next(this.id)">next</div>
-				</div>
-
-				<div id="Step2" class="quad" onclick="zoomIn(this.id)">
-					<div id="Step2Title" class="Title">2: Capture Image</div>
-					<video id="inputVideo" style="display: none;" muted autoplay playsinline></video>
-					<canvas id="Input" style="display: none;"></canvas>
-					<canvas id="canvasOutputVideo" class="Step2Content Canv"></canvas>
-					<div id="startCamera" class="Button Step2Content" onclick="event.stopPropagation(); startCameraAndCapture(this.id)">start camera</div>
-					<div id="NextStep2" class="Button Step2Content NextStep" onclick="event.stopPropagation(); next(this.id)">use image</div>
-					<div id="Step2Menu" class="Menu Button Step2Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
-					<div id="imageFeedback" class="Step2Content Button">deviation: NAN</div>
-				</div>
-
-				<div id="Step3" class="quad" onclick="zoomIn(this.id)">
-					<div id="Step3Title" class="Title">3: Result</div>
-					<canvas id="canvasFinalImage" class="Step3Content Canv"></canvas>
-					<div id="Step3Menu" class="Menu Button Step3Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
-					<div id="NextStep3" class="Button Step3Content NextStep" onclick="event.stopPropagation(); next(this.id)">analysis</div>
-					<div id="imageDescriptionAmount3" class="Step3Content Button imageDescriptionAmount">med. size: NAN</div>
-					<div id="imageDescriptionSize3" class="Step3Content Button imageDescriptionSize">med. size: NAN</div>
-				</div>
-
-				<div id="Step4" class="quad" onclick="zoomIn(this.id)">
-					<div id="Step4Title" class="Title">4: Analysis</div>
-					<div id="Step4Menu" class="Menu Button Step4Content" onclick="event.stopPropagation(); menu(this.id)">menu</div>
-					<div id="analysis" class="Step4Content Canv finalCanv">
-						<canvas id="myChart"></canvas>
-					</div>
-					<div id="imageDescriptionAmount2" class="Step4Content Button imageDescriptionAmount">#: NAN</div>
-					<div id="imageDescriptionSize2" class="Step4Content Button imageDescriptionSize">med. size: NAN</div>
-					<div id="imageDescriptionSizeMedian2" class="Step4Content Button imageDescriptionFines">med. size: NAN</div>
-					<div id="imageDescriptionFines2" class="Step4Content Button imageDescriptionFines">% fines (&lt;100mu):</div>
-				</div>
-
+		<div id="big-box">
+		<div class="name">Moritz Jarosch</div>
+		<div id="content-container">
+			<div class="content-element-container my-description">
+				<div class="content-header">About Me</div>
+				<div class="description-content">I am currently studying <span class="marked">Information Systems (M.Sc)</span> at Karlsruhe Institute of Technology. Primarily focused on <span class="marked">Data Science and Machine Learning</span>. But also interested in Interactive Systems and Ubiquitous Computing.</div>
 			</div>
-			<div id="Rightlower"></div>
+			<div class="content-element-container projects">
+				<div class="content-header">Projects</div>
+                <div class="selector" id="selector-projects">
+                </div>
+				<div class="content-scroll" id="scroll-projects">
+                    <div class="content project" id="p1">
+                        <div class="project-date date">(2021)</div>
+                        <div class="project-header header">Clustering of Traffic Scene Graphs using Variational Autoencoders</div>
+                        <div class="project-description description">In my Bachelor Thesis i explored the novel technique of Variational Graph Autoencoders to generate realistic, synthetic traffic scenes. In addition I also clustered the resulting latent space to make complex traffic scenes comparable. <a href="resources/Thesis.pdf" target="_blank">&lt;Thesis&gt;</a></div>
+                    </div>  
+                    <div class="content project" id="p2">
+                        <div class="project-date date">(2022)</div>
+                        <div class="project-header header">Self Supervised Clustering of Traffic Scenes using Graph Representations</div>
+                        <div class="project-description description">As a follow-up to my Thesis and while working at the FZI We wrote and published this paper about using Graph Neural Networks and Contrastive learning to generate a metric for comparing traffic scenes without expensive graph matching.</div>
+                    </div>
+                    <div class="content project" id="p3">
+                        <div class="project-date date">(2021)</div>
+                        <div class="project-header header">Grind Size Analyzer</div>
+                        <div class="project-description description">Comparing and Communicating Coffee grind sizes and distributions between different grinders is difficult. Professional lab tools exist but access to them is expensive. This simple website provides a free and reliable solution. <a href="analyzer.html" target="_blank">&lt;Analyzer&gt;</a></div>
+                    </div>
+                    <div class="content project" id="p4">
+                        <div class="project-date date">(2016-2017)</div>
+                        <div class="project-header header">Formula Student</div>
+                        <div class="project-description description">As part of the Einstein Motorsport team I developed, simulated and build the rear aerodynamic components. At Formula Student Austria I defended our aero design sucessfully.</div>
+                    </div>
+                    <div class="content project" id="p5">
+                        <div class="project-date date">(2015-2016)</div>
+                        <div class="project-header header">Sparrow</div>
+                        <div class="project-description description">Starting as a hobby project and later on financially supported by the Baden-Würtemberg-Stiftung We developed an Electric Longboard with an innovative weigth sensing control scheme, making for a more intuitive and safe ride. Participating at Jugend Forscht we won the first place in the regional competition and won a sponsored internship at KIT at the state competition.</div>
+                    </div>
+				</div>
+			</div>
+			<div class="content-element-container education">
+				<div class="content-header">Education</div>
+				<div class="content">
+					<div class="education-header">Master Information Systems</div>
+					<div class="education-date">(2022-est.2024)</div>
+					<div class="education-description">Karlsruhe Institute of Technology</div>
+				</div>
+				<div class="content">
+					<div class="education-header">Bachelor Information Engineering and Management</div>
+					<div class="education-date">(2017-2022)</div>
+					<div class="education-description">Karlsruhe Institute of Technology</div>
+				</div>
+			</div>
+			<div class="content-element-container work">
+				<div class="content-header">Work Experience</div>
+                <div class="selector" id="selector-work">
+                </div>
+                <div class="content-scroll" id="scroll-work">
+				<div class="work" id="w1">
+					<div class="work-date date">(Spring 2022-now)</div>
+					<div class="work-header header">Forschungszentrum Informatik (FZI)</div>
+					<div class="work-description description">Following my Thesis i joined the FZI as Research Assistant and continued working on multiple topics concerning representation learning and graph generation using Graph Neural Networks applied to traffic scene graphs.</div>
+				</div>
+				<div class="work" id="w2">
+					<div class="work-date date">(Spring 2020 - Summer 2020)</div>
+					<div class="work-header header">Wieland Werke AG</div>
+					<div class="work-description description">As intern in the smart data team i was tasked with conducting statistical data analysis. Most projects revolved around modeling and improving existing procedures using data from the production.</div>
+				</div>
+				<div class="work" id="w3">
+					<div class="work-date date">(Spring 2019- Fall 2019)</div>
+					<div class="work-header header">Hinte Marketing & Media GmbH</div>
+					<div class="work-description description">In my role as a working student i contributed to various IT related topics, like conducting usability studies, researching and implementing new IT systems and supporting in product development.</div>
+				</div>
+                </div>
+			</div>
+			<div class="content-element-container contact">
+				<div class="content-header">Contact and misc</div>
+				<a href="https://www.linkedin.com/in/moritz-jarosch-78361b1b3/" target="_blank">&lt;LinkedIn&gt;</a><br>
+				<a href="resources/CVWeb.pdf" target="_blank">&lt;CV_de&gt;</a><br>
+			</div>
+			<div class="content-element-container experiments">
+				<div class="content-header">Experiments</div>
+				<div class="content">Coming Soon</div>
+			</div>
+		</div>
 		</div>
     </body>
 </html>
