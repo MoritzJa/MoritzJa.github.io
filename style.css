@@ -1,6 +1,7 @@
 @font-face {
     font-family: Silkscreen-Regular;
     src: url("resources/Silkscreen-Regular.ttf") format("opentype");
+    font-display: swap;
 }
 
 @font-face {
