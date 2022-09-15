@@ -81,6 +81,10 @@ body {
     background-color: rgb(60, 60, 60);
 }
 
+.selector-button:hover {
+    cursor: pointer;
+}
+
 .education-header {
     font-size: 1.5rem;
     color: rgb(70, 146, 190);
