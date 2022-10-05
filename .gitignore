@@ -2,3 +2,4 @@
 *.png
 !Icon_*.png
 !PNG_SW*.png
+!favicon.png
