@@ -348,3 +348,11 @@ a:active {
   .crt {
     animation: textShadow 50.2s infinite;
   }
+ 
+#myCanvas {
+	width: 100%;
+}
+
+#canvtext {
+	font-size: 1.2rem;
+}
